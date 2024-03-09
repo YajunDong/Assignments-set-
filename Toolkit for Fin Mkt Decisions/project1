@@ -1,6 +1,5 @@
-""" zid_project1.py
+""" zid_project1.py"""
 
-"""
 import json
 import os
 import toolkit_config as cfg
