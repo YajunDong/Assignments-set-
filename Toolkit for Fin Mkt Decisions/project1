@@ -1,5 +1,3 @@
-""" zid_project1.py"""
-
 import json
 import os
 import toolkit_config as cfg
@@ -12,15 +10,12 @@ COLUMNS = ['Volume', 'Date', 'Adj Close', 'Close', 'Open', 'High']
 COLWIDTHS = {'Volume': 14, 'Date': 11, 'Adj Close': 19, 'Close': 10, 'Open': 6, 'High': 20}
 
 def get_tics(pth):
-    tickers = {}  # initialize an empty dictionary
-    with open(pth, mode='r') as file:  # open file
-        for line in file:  # for loop each line
-            line = line.lower().strip()  # lower case, remove leading and trading spaces
-            if len(line) > 0:   # if line is not empty
+    tickers = {}  
+    with open(pth, mode='r') as file:  
+        for line in file:  
+            line = line.lower().strip()  
+            if len(line) > 0:   
                 exchange, tic = [part.strip('"') for part in line.split("=")]
-                # split that line into 2 parts by '='
-                # remove ""
-                # assign first element to 'exchange'
                 tickers[tic] = exchange
     return tickers
 
@@ -60,9 +55,9 @@ def verify_cols(col_lst=None):
 
 def create_data_dict(tic_exchange_dic, tickers_lst=None, col_lst=None):
     if tickers_lst is not None:
-        verify_tickers(tic_exchange_dic, tickers_lst)  # Verify tickers
+        verify_tickers(tic_exchange_dic, tickers_lst)  
     if col_lst is not None:
-        verify_cols(col_lst)  # Verify columns
+        verify_cols(col_lst)  
     data_dict = {}
     for tic in tic_exchange_dic:
         if tickers_lst is None or tic in tickers_lst:
@@ -72,7 +67,6 @@ def create_data_dict(tic_exchange_dic, tickers_lst=None, col_lst=None):
             for line in data:
                 line_data = line_to_dict(line)
                 if col_lst is not None:
-                    # Filter the dictionary to include only the desired columns
                     line_data = {col: line_data[col] for col in col_lst if col in line_data}
                 data_dict[tic]['data'].append(line_data)
     return data_dict
