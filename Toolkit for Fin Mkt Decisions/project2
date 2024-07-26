@@ -1,5 +1,3 @@
-""" zid_project2.py"""
-
 import os
 import pandas as pd
 import config as cfg
@@ -64,73 +62,8 @@ def get_ann_ret(ser, start, end):
     x1 = x.add(1)
     return (x1[date].prod())**(252 / len(date)) - 1
 
-# ----------------------------------------------------------------------------
-# Part 8: Answer the following questions
-# ----------------------------------------------------------------------------
-# NOTES:
-# 
-# - You can create a separate module (you can call it main.py if you want) 
-#   and then use the functions defined above to answer the questions below. 
-#   YOU DO NOT NEED TO SUBMIT THIS OTHER MODULE YOU CREATE. THE ONLY MODULE
-#   YOU NEED TO SUBMIT IS THIS ONE, zid_project2.py.
-#
-# - Do not create any other functions inside this module. 
-# 
-# - For this part of the project, only the answers provided below will be
-#   marked. You are free to create any function you want (IN A SEPARATE
-#   MODULE).
-#
-# - All your answers should be strings. If they represent a number, include 4
-#   decimal places.
-# 
-# - Here is an example of how to answer the questions below. Consider the
-#   following question:
-#
-#   Q0: Which ticker included in config.TICMAP starts with the letter "C"?
-#   Q0_answer = '?'
-#  
-#   You should replace the '?' with the correct answer:
-#   Q0_answer = 'CSCO'
-#  
 
-# Q1: Which stock in your sample has the highest average daily return for the
-#     year 2020 (ignoring missing values)? The sample should include all tickers
-#     included in the dictionary config.TICMAP. Your answer should include the
-#     ticker for this stock.
-Q1_ANSWER = 'TSLA'
-
-
-# Q2: What is the annualised return for the EW portfolio of all your stocks in
-# the config.TICMAP dictionary from the beginning of 2010 to the end of 2020?
-Q2_ANSWER = '0.2044'
-
-# Q3: What is the annualised daily return for the period from 2010 to 2020 for
-# the stock with the highest average return in 2020 (the one you identified in
-# the first question above)?
-Q3_ANSWER = '0.5516'
-
-# Q4: What is the annualised daily ABNORMAL return for the period from 2010 to 2020 for
-# the stock with the highest average return in 2020 (the one you identified in
-# the first question Q1 above)? Abnormal returns are calculated by subtracting
-# the market return ("mkt") from the individual stock return.
-Q4_ANSWER = '0.3771'
-    
-# ----------------------------------------------------------------------------
-#   Test functions 
-# ----------------------------------------------------------------------------
-
-# This is an auxiliary function, please do not modify
 def _test_print(obj, msg=None):
-    """ Pretty prints `obj`. Will be used by other `_test` functions
-
-    Parameters
-    ----------
-    obj : any object
-
-    msg : str, optional
-        Message preceding obj representation
-
-    """
     import pprint as pp
     sep = '-'*40
     if isinstance(obj, str):
@@ -151,20 +84,8 @@ def _test_print(obj, msg=None):
         obj.info()
     print(sep)
 
-# This is an auxiliary function, please do not modify
-def _test_cfg():
-    """ This test function will help you determine if the config.py module inside
-    the project2 package was successfully imported as `cfg` and if the files 
-    are where they should be:
 
-    toolkit/
-    |
-    |__ project2/
-    |   |__ data/       <-- project2.config.DATADIR
-    |
-    """
-    # Test if the data folder is inside the project2 folder
-    # NOTE: The "parent" of the `data` folder is `project2`
+def _test_cfg():
     parent = os.path.dirname(cfg.DATADIR)
     to_print = f'''
 The variable `parent` should point to the project2 folder:
@@ -174,51 +95,21 @@ The variable `parent` should point to the project2 folder:
 The data folder for this project is located at:
   cfg.DATADIR: '{cfg.DATADIR}'
   Folder exists: '{os.path.exists(cfg.DATADIR)}'
-'''
-    _test_print(to_print.strip())
+  _test_print(to_print.strip())
 
 
 def _test_read_prc_csv():
-    """ Test function for `read_prc_csv`
-    """
     tic = 'TSLA'
     df = read_prc_csv(tic)
     _test_print(df)
 
 
 def _test_mk_prc_df():
-    """ Test function for `mk_prc_df`
-    """
     tickers = ['AAPL', 'TSLA']
     prc_df = mk_prc_df(tickers, prc_col='adj_close')
     _test_print(prc_df)
 
 def _test_mk_ret_df():
-    """ Test function for the `mk_ret_df` function
-
-    1. Creates a data frame `prc_df` with prices: 
-
-        | Date       | aapl   | tsla   |
-        |------------+--------+--------|
-        | 2020-10-13 | 121.09 | 446.64 |
-        | 2020-10-14 | 121.19 | 461.29 |
-        | 2020-10-15 | 120.70 | 448.88 |
-        | 2020-10-16 | 119.01 | 439.67 |
-        | 2020-10-12 | 124.40 | NaN    |
-
-    2. Creates the return data frame `ret_df=mk_ret_df(prc_df)`.
-       For the `prc_df` data frame above, the `ret_df` data frame should be:
-
-        | Date       | aapl      | tsla      | mkt     |
-        |------------+-----------+-----------+---------|
-        | 2020-10-12 | NaN       | NaN       | 0.0153  |
-        | 2020-10-13 | -0.026608 | NaN       | -0.0041 |
-        | 2020-10-14 | 0.000826  | 0.032800  | -0.0065 |
-        | 2020-10-15 | -0.004043 | -0.026903 | -0.0008 |
-        | 2020-10-16 | -0.014002 | -0.020518 | -0.0006 |
-
-    """
-    # Test data frame
     prc_df = pd.DataFrame({
         'aapl': [
             121.09, 
@@ -252,30 +143,6 @@ def _test_mk_ret_df():
 
 
 def _test_mk_aret_df():
-    """ Test function for the `mk_aret_df` function
-
-    1. Creates a data frame `ret_df` with returns: 
-
-        |            | aapl      | tsla      | mkt     |
-        |------------+-----------+-----------+---------|
-        | 2020-10-12 | NaN       | NaN       | 0.0153  |
-        | 2020-10-13 | -0.026608 | NaN       | -0.0041 |
-        | 2020-10-14 | 0.000826  | 0.032800  | -0.0065 |
-        | 2020-10-15 | -0.004043 | -0.026903 | -0.0008 |
-        | 2020-10-16 | -0.014002 | -0.020518 | -0.0006 |
-
-    2. Creates the abnormal return data frame `aret_df=mk_aret_df(ret_df)`.
-       For the `ret_df` data frame above, the `aret_df` data frame should be:
-
-        |            | aapl      | tsla      |
-        |------------+-----------+-----------|
-        | 2020-10-12 | NaN       | NaN       |
-        | 2020-10-13 | -0.022508 | NaN       |
-        | 2020-10-14 | 0.007326  | 0.039300  |
-        | 2020-10-15 | -0.003243 | -0.026103 |
-        | 2020-10-16 | -0.013402 | -0.019918 |
-
-    """
     idx = pd.to_datetime([
         '2020-10-12', 
         '2020-10-13', 
@@ -312,9 +179,6 @@ def _test_mk_aret_df():
 
 
 def _test_get_avg():
-    """ Test function for `get_avg`
-    """
-    # Made-up data
     prc = pd.Series({
         '2019-01-01': 1.0,
         '2019-01-02': 2.0,
@@ -337,29 +201,6 @@ def _test_get_avg():
     
 
 def _test_get_ew_rets():
-    """ Test function for `get_ew_rets`
-
-    1. Create a test df with the following information:
-
-        |            | tic1 | tic2 | tic3 |
-        |------------+------+------+------|
-        | 2019-01-01 | 1.0  | 2.0  | 99   |
-        | 2019-01-02 | 2.0  | NaN  | 99   |
-        | 2020-10-02 | 1.0  | 2.0  | 99   |
-        | 2020-11-12 | 2.0  | 1.0  | 99   |
-    
-    2. Compute the equal-weighted average between tic1 and tic2. For the
-    example above, `get_ew_rets(df, ['tic1', 'tic2'])` gives a series with
-    the following information:
-
-        | 2019-01-01 | 1.5 |
-        | 2019-01-02 | 2.0 |
-        | 2020-10-02 | 1.5 |
-        | 2020-11-12 | 1.5 |
-
-
-    """
-    # Made-up data
     tic1 = [1.0, 2.0, 1.0, 2.0,]
     tic2 = [2.0, None, 2.0, 1.0,]
     tic3 = [99, 99, 99, 99,]
@@ -375,64 +216,18 @@ def _test_get_ew_rets():
 
 
 def _mk_test_ser():
-    """ This function will generate a test series with the following
-    characteristics:
-
-    - There are 400 obs
-    - All values are the same (the daily_yield below)
-    - The cumulative return over the 400 days is 50%
-    - The datetime index starts in '2010-01-01
-
-    Notes
-    -----
-
-    The idea is to work backwards -- figure out what the result should be and
-    then construct a test series that will give you this result. 
-
-    For instance, assume that you have held a stock for 400 trading days and
-    the total return over this period is 1.5 (so 50% over 400 trading days).
-    The annualised return you need to compute is:
-
-        tot_ret ** (252/N) - 1 = 1.5 ** (252/400) - 1 = 0.2910
-
-    This should be the result of get_ann_ret if the series contains 400 daily
-    returns between some start and end dates with a cumulative return of 50%. 
-
-    One possibility is to create a test series with 400 copies of daily_yield,
-    where daily_yield is:
-
-        (1 + daily_yield)**400 = 1.5 => daily_yield = 1.5 ** (1/400) - 1 = 0.0010142
-
-    If these were daily returns, the total return would be 1.5
-
-    This means that for a series with 400 copies of daily_yield, with a
-    datetime index starting at `start` and ending at `end`, the output of
-    `get_ann_ret(ser, start, end)` should be 0.2910.
-
-    This series needs a datetime index starting at some start date and
-    spanning 400 days. You can create one using `pd.to_datetime` and
-    `pd.to_timedelta`. The `end` date will be the last element in the index.
-
-    """
     tot_ret = 1.5
     n = 400
     start = '2010-01-01'
     daily_yield = tot_ret**(1.0/n)-1
-
-    # This is the expected result (the annualised return)
     exp_res = tot_ret ** (252./n) - 1
 
-    # Create a series of timedelta objects, representing
-    # 0, 1, 2, ... days
     start_dt = pd.to_datetime(start)
     days_to_add = pd.to_timedelta([x for x in range(400)], unit='day')
     idx = start_dt + days_to_add
 
-    # Then create the series
     ser = pd.Series([daily_yield]*n, index=idx)
 
-    # So, `get_ann_ret(ser, start, end) --> exp_res`
-    # We have the `ser` and `start`. What about `end`?
     end = ser.index.max().strftime('%Y-%m-%d')
     
     to_print = [
@@ -448,7 +243,6 @@ def _mk_test_ser():
             ]
     print('\n'.join(to_print))
 
-    # add periods before `start` and `end`
     start_dt, end_dt = ser.index.min(), ser.index.max()
 
     idx_bef = start_dt + pd.to_timedelta([-3, -2, -1], unit='day')
@@ -466,45 +260,21 @@ def _mk_test_ser():
 
 
 def _test_get_ann_ret():
-    """ Test function for `get_ann_ret`
-
-    To construct this example, suppose first that holding the stock for 400
-    trading days gives a total return of 1.5 (so 50% over 400 trading days).
-
-    The annualised return will then be:
-
-        (tot_ret)**(252/N) - 1 = 1.5 ** (252/400) - 1 = 0.2910
-
-    Create an example data frame with 400 copies of the daily yield, where
-
-        daily yield = 1.5 ** (1/400) - 1
-
-    """
-    # Parameters
     tot_ret = 1.5
     n = 400
     start = '2010-01-01'
     daily_yield = tot_ret ** (1.0/n) - 1
     print(daily_yield)
 
-    # This is what the function `get_ann_ret` should return
     expected_res = tot_ret ** (252./n) - 1
 
-    # Create the index
-    # This will add `n` days to `start`
     n_days = pd.to_timedelta([x for x in range(n)], unit='day')
     dt_idx = pd.to_datetime(start) + n_days
 
-    # Get the end date
     end = dt_idx.max().strftime('%Y-%m-%d')
 
-    # So, `end` - `start` --> n days
-
-    # Create a series with `n` copies of `daily_yield`
     ser = pd.Series([daily_yield] * n, index=dt_idx)
 
-
-    # Add days before `start` and after `end`
     dt_bef_idx = pd.to_datetime(start) + pd.to_timedelta([-3, -2, -1], unit='day')
     ser_before = pd.Series([-99]*3, index=dt_bef_idx)
 
@@ -512,7 +282,6 @@ def _test_get_ann_ret():
     dt_after_idx = pd.to_datetime(end) + pd.to_timedelta([1, 2, 3], unit='day')
     ser_after = pd.Series([-99]*3, index=dt_after_idx)
 
-    # combine series
     ser = pd.concat([ser_before, ser, ser_after])
 
 
@@ -525,7 +294,6 @@ def _test_get_ann_ret():
         f"The value of `res` is {res}",
         ]
     _test_print('\n'.join(to_print))
-
 
 
 if __name__ == "__main__":
